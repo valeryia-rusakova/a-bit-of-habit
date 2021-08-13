@@ -3,7 +3,7 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-from images.models import Image
+from dal.image_model import Image
 
 
 class Profile(models.Model):
