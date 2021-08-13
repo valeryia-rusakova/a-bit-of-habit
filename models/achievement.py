@@ -1,7 +1,7 @@
 from django.db import models
 from enums.achievement_enum import AchievementLevel
-from dal.habit_model import Habit
-from dal.image_model import Image
+from models.habit import Habit
+from models.image import Image
 
 
 class Achievement(models.Model):

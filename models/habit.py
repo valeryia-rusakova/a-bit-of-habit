@@ -1,6 +1,6 @@
 from django.db import models
 from enums.habit_enum import HabitType
-from dal.image_model import Image
+from models.image import Image
 
 
 class Habit(models.Model):

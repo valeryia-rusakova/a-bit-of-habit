@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
-from dal.achievement_model import Achievement
+from models.achievement import Achievement
 
 
 class AchievementUser(models.Model):

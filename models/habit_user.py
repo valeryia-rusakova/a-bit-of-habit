@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
-from dal.habit_model import Habit
+from models.habit import Habit
 from enums.achievement_enum import AchievementLevel
 
 
