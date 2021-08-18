@@ -1,4 +1,5 @@
 from rest_framework.exceptions import PermissionDenied
+from rest_framework.permissions import IsAuthenticated
 
 from project.dal.post import PostDAL
 
@@ -6,30 +7,28 @@ from project.dal.post import PostDAL
 class PostController:
     dal = PostDAL()
 
-    @staticmethod
-    def _user_role_permissions(request):
-        user = request.user
-        if user.is_anonymous:
-            return 'user_any'
-        elif user.is_superuser:
-            return 'user_admin'
-        return 'user_authenticated'
-
-    def _check_permissions(self, request, request_type: str) -> bool:
-        permissions_list = {
-            'list': ['user_any', 'user_authenticated', 'user_admin'],
-            'retrieve': ['user_any', 'user_authenticated', 'user_admin'],
-            'post': ['user_authenticated', 'user_admin'],
-            'update': ['user_authenticated', 'user_admin']
-        }
-        user_role = self._user_role_permissions(request)
-        have_access = user_role in permissions_list[request_type]
-        return have_access
-
     def queryset_response(self, request, request_type):
-        if not self._check_permissions(request, request_type):
-            raise PermissionDenied()
         if request_type == 'list':
             return self.dal.post_list()
         post_pk = request.parser_context['kwargs']['pk']
         return self.dal.post_retrieve(post_pk)
+
+
+def route_permissions(permission):
+    def decorator(view_method):
+        def _decorator(self, *args, **kwargs):
+            user = self.request.user
+            if user.is_anonymous:
+                user_role = 'user_any'
+            elif user.is_superuser:
+                user_role = 'user_admin'
+            else:
+                user_role = 'user_authenticated'
+            if user_role == permission:
+                return view_method(self, *args, **kwargs)
+            else:
+                raise PermissionDenied()
+
+        return _decorator
+
+    return decorator
