@@ -5,7 +5,7 @@ from project.dal.post import PostDAL
 class PostController:
     dal = PostDAL()
 
-    def get_queryset(self, request, request_type):
+    def get_post_queryset(self, request, request_type):
         if request_type == 'list':
             return self.dal.get_posts()
         post_pk = request.parser_context['kwargs']['pk']
