@@ -3,25 +3,25 @@ from project.models import Post
 
 class PostDAL:
     @staticmethod
-    def post_retrieve(pk):
+    def retrieve_post(pk):
         return Post.objects.get(pk=pk)
 
     @staticmethod
-    def post_list():
+    def get_list_posts():
         return Post.objects.all()
 
     @staticmethod
-    def post_delete(pk):
+    def delete_post(pk):
         print(pk)
         post = Post.objects.get(pk=pk)
         post.delete()
 
     @staticmethod
-    def post_create(object_data: dict):
+    def insert_post(object_data: dict):
         Post.objects.create(**object_data)
 
     @staticmethod
-    def post_update(object_data: dict, pk):
+    def update_post(object_data: dict, pk):
         post = Post.objects.get(pk=pk)
         post.body = object_data['body']
         post.header = object_data['header']

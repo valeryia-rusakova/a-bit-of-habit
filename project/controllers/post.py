@@ -1,40 +1,38 @@
 from rest_framework.exceptions import PermissionDenied
 from project.dal.post import PostDAL
-from rest_framework.request import Request
 
 
 class PostController:
     dal = PostDAL()
 
-    def queryset_response(self, request, request_type):
+    def get_queryset(self, request, request_type):
         if request_type == 'list':
-            return self.dal.post_list()
+            return self.dal.get_list_posts()
         post_pk = request.parser_context['kwargs']['pk']
-        return self.dal.post_retrieve(post_pk)
+        return self.dal.retrieve_post(post_pk)
 
-    def object_created_response(self, request):
+    def create_post(self, request):
         data = {
             'user': request.user,
             'header': request.POST.get('header'),
             'body': request.POST.get('body')
         }
-        return self.dal.post_create(data)
+        return self.dal.insert_post(data)
 
-    def object_delete_response(self, request):
+    def delete_post(self, request):
         delete_pk = request.parser_context['kwargs']['pk']
-        return self.dal.post_delete(delete_pk)
+        return self.dal.delete_post(delete_pk)
 
-    def object_update_response(self, request):
+    def update_post(self, request):
         data = {
             'header': request.POST.get('header'),
             'body': request.POST.get('body'),
         }
         update_pk = request.parser_context['kwargs']['pk']
-        return self.dal.post_update(object_data=data, pk=update_pk)
+        return self.dal.update_post(object_data=data, pk=update_pk)
 
 
-
-def route_permissions(permission):
+def has_permissions(permission):
     roles = {
         'admin': ['user_admin'],
         'user': ['user_admin', 'user_authenticated'],
