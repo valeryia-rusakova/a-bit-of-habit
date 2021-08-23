@@ -7,15 +7,15 @@ class PostController:
 
     def get_post_queryset(self, request, request_type):
         if request_type == 'list':
-            return self.dal.get_posts()
+            return self.dal.get_list_posts()
         post_pk = request.parser_context['kwargs']['pk']
         return self.dal.retrieve_post(post_pk)
 
     def create_post(self, request):
         data = {
             'user': request.user,
-            'header': request.POST.get('header'),
-            'body': request.POST.get('body')
+            'header': request.data['header'],
+            'body': request.data['body']
         }
         return self.dal.insert_post(data)
 
@@ -25,8 +25,8 @@ class PostController:
 
     def update_post(self, request):
         data = {
-            'header': request.POST.get('header'),
-            'body': request.POST.get('body'),
+            'header': request.data['header'],
+            'body': request.data['body'],
         }
         update_pk = request.parser_context['kwargs']['pk']
         return self.dal.update_post(object_data=data, pk=update_pk)
