@@ -7,7 +7,7 @@ class PostController:
 
     def get_post_queryset(self, request, request_type):
         if request_type == 'list':
-            return self.dal.get_list_posts()
+            return self.dal.get_posts_list()
         post_pk = request.parser_context['kwargs']['pk']
         return self.dal.retrieve_post(post_pk)
 
