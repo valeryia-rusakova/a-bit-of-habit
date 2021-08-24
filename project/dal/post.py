@@ -7,7 +7,7 @@ class PostDAL:
         return Post.objects.get(pk=pk)
 
     @staticmethod
-    def get_list_posts():
+    def get_posts_list():
         return Post.objects.all()
 
     @staticmethod
