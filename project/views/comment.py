@@ -1,9 +1,9 @@
-from rest_framework import mixins, viewsets, status
-from rest_framework.response import Response
 from project.controllers.comment import CommentController
-from project.controllers.post import has_permissions
 from project.dal.comment import CommentDAL
 from project.serializers import CommentSerializer
+from rest_framework import mixins, status, viewsets
+from rest_framework.response import Response
+from utils import has_permissions
 
 
 class CommentView(

@@ -1,8 +1,9 @@
 from rest_framework import mixins, viewsets, status
 from rest_framework.response import Response
-from project.controllers.post import PostController, has_permissions
+from project.controllers.post import PostController
 from project.dal.post import PostDAL
 from project.serializers import PostSerializer
+from utils import has_permissions
 
 
 class PostView(
