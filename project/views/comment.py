@@ -1,11 +1,12 @@
 from rest_framework import mixins, viewsets, status
 from rest_framework.response import Response
-from project.controllers.post import PostController, has_permissions
-from project.dal.post import PostDAL
-from project.serializers import PostSerializer
+from project.controllers.comment import CommentController
+from project.controllers.post import has_permissions
+from project.dal.comment import CommentDAL
+from project.serializers import CommentSerializer
 
 
-class PostView(
+class CommentView(
     mixins.ListModelMixin,
     mixins.CreateModelMixin,
     mixins.RetrieveModelMixin,
@@ -13,35 +14,35 @@ class PostView(
     mixins.UpdateModelMixin,
     viewsets.GenericViewSet
 ):
-    dal = PostDAL()
-    controller = PostController()
+    dal = CommentDAL()
+    controller = CommentController()
 
-    queryset = dal.get_posts_list()
-    serializer_class = PostSerializer
+    queryset = dal.get_comments_list()
+    serializer_class = CommentSerializer
 
     @has_permissions('anonymous')
     def list(self, request, *args, **kwargs) -> Response:
-        queryset = self.controller.get_post_queryset(request, 'list')
+        queryset = self.controller.get_comment_queryset(request, 'list')
         serializer = self.serializer_class(queryset, many=True)
         return Response(serializer.data)
 
     @has_permissions('anonymous')
     def create(self, request, *args, **kwargs) -> Response:
-        self.controller.create_post(request)
+        self.controller.create_comment(request)
         return Response(status=status.HTTP_201_CREATED)
 
     @has_permissions('anonymous')
     def retrieve(self, request, *args, **kwargs) -> Response:
-        post_object = self.controller.get_post_queryset(request, 'retrieve')
-        serializer = self.serializer_class(post_object)
+        comment_object = self.controller.get_comment_queryset(request, 'retrieve')
+        serializer = self.serializer_class(comment_object)
         return Response(serializer.data)
 
     @has_permissions('anonymous')
     def destroy(self, request, *args, **kwargs) -> Response:
-        self.controller.delete_post(request)
+        self.controller.delete_comment(request)
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     @has_permissions('anonymous')
     def update(self, request, *args, **kwargs) -> Response:
-        self.controller.update_post(request)
+        self.controller.update_comment(request)
         return Response(status=status.HTTP_200_OK)

@@ -35,7 +35,7 @@ class AchievementUser(models.Model):
 class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     post = models.ForeignKey("Post", on_delete=models.CASCADE)
-    body = models.TextField(verbose_name='post text')
+    body = models.TextField(verbose_name='comment text')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
