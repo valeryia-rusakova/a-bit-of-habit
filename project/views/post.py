@@ -1,3 +1,4 @@
+from django.urls import reverse
 from rest_framework import mixins, viewsets, status
 from rest_framework.response import Response
 from project.controllers.post import PostController, has_permissions
@@ -21,7 +22,7 @@ class PostView(
 
     @has_permissions('anonymous')
     def list(self, request, *args, **kwargs) -> Response:
-        queryset = self.controller.get_queryset(request, 'list')
+        queryset = self.controller.get_post_queryset(request, 'list')
         serializer = self.serializer_class(queryset, many=True)
         return Response(serializer.data)
 
@@ -32,7 +33,7 @@ class PostView(
 
     @has_permissions('anonymous')
     def retrieve(self, request, *args, **kwargs) -> Response:
-        post_object = self.controller.get_queryset(request, 'retrieve')
+        post_object = self.controller.get_post_queryset(request, 'retrieve')
         serializer = self.serializer_class(post_object)
         return Response(serializer.data)
 
