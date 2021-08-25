@@ -10,7 +10,7 @@ urlpatterns = [
     path('comments/', CommentView.as_view({'get': 'list', 'post': 'create'}), name="comments_list"),
     path('comments/<int:pk>/', CommentView.as_view({'get': 'retrieve', 'delete': 'destroy', 'put': 'update'}),
          name="comment_detail"),
-    path('images/', ImageView.as_view({'get': 'list', 'post': 'create'}), name="comments_list"),
+    path('images/', ImageView.as_view({'get': 'list', 'post': 'create'}), name="images_list"),
     path('images/<int:pk>/', ImageView.as_view({'get': 'retrieve', 'delete': 'destroy', 'put': 'update'}),
-         name="comment_detail"),
+         name="image_detail"),
 ]
