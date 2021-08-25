@@ -1,6 +1,5 @@
 from project.dal.habit import HabitDAL
 from project.dal.image import ImageDAL
-from project.dal.post import PostDAL
 
 
 class HabitController:
