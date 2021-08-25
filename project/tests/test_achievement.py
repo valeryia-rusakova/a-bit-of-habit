@@ -4,7 +4,7 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 from project.models import Achievement, Habit, Image
-from project.serializers import CommentSerializer, AchievementSerializer
+from project.serializers import AchievementSerializer
 
 
 class AchievementModelTest(APITestCase):
