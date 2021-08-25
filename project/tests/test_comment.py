@@ -40,7 +40,7 @@ class CommentModelTest(APITestCase):
         )
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
-    def test_valid_update_post(self):
+    def test_valid_update_comment(self):
         self.client.login(username='test_user', password='qwerty15432')
         response = self.client.put(
             reverse('comment_detail', kwargs={'pk': self.comment.pk}),
@@ -49,7 +49,7 @@ class CommentModelTest(APITestCase):
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    def test_delete_post(self):
+    def test_delete_comment(self):
         response = self.client.delete(
             reverse('comment_detail', kwargs={'pk': self.comment.pk}))
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
