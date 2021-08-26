@@ -24,8 +24,6 @@ class AchievementDAL:
     def update_achievement(object_data: dict, pk):
         achievement = get_object_or_404(Achievement, pk=pk)
         achievement.name = object_data['name']
-        achievement.description = object_data['description']
-        achievement.level = object_data['level']
-        achievement.habit = object_data['habit']
+        achievement.amount_ro_reach = object_data['amount_ro_reach']
         achievement.image = object_data['image']
         achievement.save()
