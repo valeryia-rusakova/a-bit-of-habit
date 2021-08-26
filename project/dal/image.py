@@ -1,10 +1,11 @@
+from django.shortcuts import get_object_or_404
 from project.models import Image
 
 
 class ImageDAL:
     @staticmethod
     def retrieve_image(pk):
-        return Image.objects.get(pk=pk)
+        return get_object_or_404(Image, pk=pk)
 
     @staticmethod
     def get_images_list():
@@ -12,8 +13,7 @@ class ImageDAL:
 
     @staticmethod
     def delete_image(pk):
-        print(pk)
-        image = Image.objects.get(pk=pk)
+        image = get_object_or_404(Image, pk=pk)
         image.delete()
 
     @staticmethod
@@ -22,6 +22,6 @@ class ImageDAL:
 
     @staticmethod
     def update_image(object_data: dict, pk):
-        image = Image.objects.get(pk=pk)
+        image = get_object_or_404(Image, pk=pk)
         image.image = object_data['image']
         image.save()

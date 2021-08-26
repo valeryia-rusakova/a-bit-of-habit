@@ -1,4 +1,5 @@
 from django.urls import path
+from project.views.achievement import AchievementView
 from project.views.comment import CommentView
 from project.views.habit import HabitView
 from project.views.image import ImageView
@@ -17,4 +18,7 @@ urlpatterns = [
     path('habits/', HabitView.as_view({'get': 'list', 'post': 'create'}), name="habits_list"),
     path('habits/<int:pk>/', HabitView.as_view({'get': 'retrieve', 'delete': 'destroy', 'put': 'update'}),
          name="habit_detail"),
+    path('achievements/', AchievementView.as_view({'get': 'list', 'post': 'create'}), name="achievements_list"),
+    path('achievements/<int:pk>/', AchievementView.as_view({'get': 'retrieve', 'delete': 'destroy', 'put': 'update'}),
+         name="achievement_detail"),
 ]
