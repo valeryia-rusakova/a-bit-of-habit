@@ -31,6 +31,6 @@ class AchievementController:
         data = {
             'name': request.data['name'],
             'image': image_instance,
-            'amount_ro_reach': request.data['amount_ro_reach']
+            'amount_to_reach': request.data['amount_to_reach']
         }
         return data
