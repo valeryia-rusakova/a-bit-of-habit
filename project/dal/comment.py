@@ -1,10 +1,11 @@
+from django.shortcuts import get_object_or_404
 from project.models import Comment
 
 
 class CommentDAL:
     @staticmethod
     def retrieve_comment(pk):
-        return Comment.objects.get(pk=pk)
+        return get_object_or_404(Comment, pk=pk)
 
     @staticmethod
     def get_comments_list():
@@ -12,8 +13,7 @@ class CommentDAL:
 
     @staticmethod
     def delete_comment(pk):
-        print(pk)
-        comment = Comment.objects.get(pk=pk)
+        comment = get_object_or_404(Comment, pk=pk)
         comment.delete()
 
     @staticmethod
@@ -22,7 +22,7 @@ class CommentDAL:
 
     @staticmethod
     def update_comment(object_data: dict, pk):
-        comment = Comment.objects.get(pk=pk)
+        comment = get_object_or_404(Comment, pk=pk)
         comment.body = object_data['body']
         comment.post = object_data['post']
         comment.save()

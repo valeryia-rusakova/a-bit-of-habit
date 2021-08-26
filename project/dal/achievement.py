@@ -1,10 +1,11 @@
+from django.shortcuts import get_object_or_404
 from project.models import Achievement
 
 
 class AchievementDAL:
     @staticmethod
     def retrieve_achievement(pk):
-        return Achievement.objects.get(pk=pk)
+        return get_object_or_404(Achievement, pk=pk)
 
     @staticmethod
     def get_achievements_list():
@@ -12,8 +13,7 @@ class AchievementDAL:
 
     @staticmethod
     def delete_achievement(pk):
-        print(pk)
-        achievement = Achievement.objects.get(pk=pk)
+        achievement = get_object_or_404(Achievement, pk=pk)
         achievement.delete()
 
     @staticmethod
@@ -22,7 +22,7 @@ class AchievementDAL:
 
     @staticmethod
     def update_achievement(object_data: dict, pk):
-        achievement = Achievement.objects.get(pk=pk)
+        achievement = get_object_or_404(Achievement, pk=pk)
         achievement.name = object_data['name']
         achievement.description = object_data['description']
         achievement.level = object_data['level']

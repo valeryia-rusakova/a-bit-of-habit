@@ -1,10 +1,11 @@
+from django.shortcuts import get_object_or_404
 from project.models import Post
 
 
 class PostDAL:
     @staticmethod
     def retrieve_post(pk):
-        return Post.objects.get(pk=pk)
+        return get_object_or_404(Post, pk=pk)
 
     @staticmethod
     def get_posts_list():
@@ -12,8 +13,7 @@ class PostDAL:
 
     @staticmethod
     def delete_post(pk):
-        print(pk)
-        post = Post.objects.get(pk=pk)
+        post = get_object_or_404(Post, pk=pk)
         post.delete()
 
     @staticmethod
@@ -22,7 +22,7 @@ class PostDAL:
 
     @staticmethod
     def update_post(object_data: dict, pk):
-        post = Post.objects.get(pk=pk)
+        post = get_object_or_404(Post, pk=pk)
         post.body = object_data['body']
         post.header = object_data['header']
         post.save()
