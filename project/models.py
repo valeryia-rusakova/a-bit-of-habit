@@ -98,10 +98,4 @@ class Post(models.Model):
         return self.header
 
 
-class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    birth_date = models.DateField(null=True, blank=True)
-    image = models.ForeignKey(Image, null=True, blank=True, on_delete=models.SET_NULL)
 
-    def __str__(self):
-        return self.user.get_username()

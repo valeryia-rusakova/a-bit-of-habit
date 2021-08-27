@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Achievement, Comment, Habit, Image, Post, Profile
+from .models import Achievement, Comment, Habit, Image, Post
 
 
 class AchievementSerializer(serializers.ModelSerializer):
@@ -34,9 +34,3 @@ class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = "__all__"
-
-
-class ProfileSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Profile
-        fields = ('birth_date', 'image', 'user',)
