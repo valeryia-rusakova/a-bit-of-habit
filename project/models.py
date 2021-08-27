@@ -6,10 +6,8 @@ from enums import AchievementLevel, HabitType
 
 
 class Achievement(models.Model):
-    name = models.CharField(verbose_name='achievement name', unique=True, max_length=30)
-    description = models.TextField(verbose_name='achievement description')
-    level = models.CharField(verbose_name='achievement level', choices=AchievementLevel.choices(), max_length=30)
-    habit = models.ForeignKey("Habit", null=True, blank=True, on_delete=models.SET_NULL)
+    name = models.CharField(verbose_name='achievement name', choices=AchievementLevel.choices(), max_length=30)
+    amount_to_reach = models.IntegerField(default=30)
     image = models.ForeignKey("Image", null=True, blank=True, on_delete=models.SET_NULL)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -23,8 +21,9 @@ class Achievement(models.Model):
 
 
 class AchievementUser(models.Model):
-    achievements = models.ManyToManyField(Achievement, blank=True)
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    achievement = models.ForeignKey(Achievement, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    description = models.TextField(verbose_name='achievement description')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -66,14 +65,10 @@ class Habit(models.Model):
 class HabitUser(models.Model):
     habit = models.ForeignKey(Habit, null=True, on_delete=models.SET_NULL)
     user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
-    date_started = models.DateField(auto_created=True)
-    is_checked = models.BooleanField(null=True)
-    checked_date = models.DateField(null=True, blank=True)
+    start_date = models.DateField(auto_created=True)
+    days_checked = models.IntegerField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    achievement_level = models.CharField(
-        verbose_name='habit level', choices=AchievementLevel.choices(), max_length=30, null=True, blank=True,
-    )
 
     def __str__(self):
         return f"{self.user.get_username()}: {self.habit.name}" if self.habit else f"{self.user.get_username()}: " \

@@ -27,13 +27,10 @@ class AchievementController:
 
     @staticmethod
     def get_request_data(request):
-        habit_instance = HabitDAL.retrieve_habit(request.data['habit'])
         image_instance = ImageDAL.retrieve_image(request.data['image'])
         data = {
             'name': request.data['name'],
-            'description': request.data['description'],
-            'level': request.data['level'],
-            'habit': habit_instance,
             'image': image_instance,
+            'amount_to_reach': request.data['amount_to_reach']
         }
         return data
