@@ -11,18 +11,12 @@ class AchievementModelTest(APITestCase):
     def setUp(self):
         self.user = User.objects.create_user('test_user', 'test_user@gmail.com', 'qwerty15432')
         self.image = Image.objects.create(image='test_image')
-        self.habit = Habit.objects.create(name='test_name', description='test_description',
-                                          type='HEALTHY', image=self.image)
-        self.first_achievement = Achievement.objects.create(name='name1', description='description1',
-                                                            level='WOODEN', image=self.image, habit=self.habit)
-        self.second_achievement = Achievement.objects.create(name='name2', description='description2',
-                                                             level='SILVER', image=self.image, habit=self.habit)
+        self.first_achievement = Achievement.objects.create(name='WOODEN', amount_to_reach=30, image=self.image)
+        self.second_achievement = Achievement.objects.create(name='SILVER', amount_to_reach=90, image=self.image)
         self.valid_payload = {
-            'name': 'test_name',
-            'description': 'test_description',
-            'level': 'test_level',
+            'name': 'PLATINUM',
+            'amount_to_reach': 150,
             'image': self.image.pk,
-            'habit': self.habit.pk,
         }
 
     def test_get_list(self):
