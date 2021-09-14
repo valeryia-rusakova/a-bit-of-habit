@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  db:
+    image: postgres
+    env_file:
+      .env
+  django:
+    build: .
+    command: ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    env_file:
+      - .env
+
+  frontend:
+    build: ../../a-bit-of-habit-react/react-project
+    command: ["npm", "start"]
+    volumes:
+      - .:/app/frontend
+      - .:/app/frontend/node_modules
+    ports:
+      - "3000:3000"
+
+volumes:
+  node-modules:
