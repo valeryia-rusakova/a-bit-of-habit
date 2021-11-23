@@ -4,6 +4,7 @@ from project.views.comment import CommentView
 from project.views.habit import HabitView
 from project.views.image import ImageView
 from project.views.post import PostView
+from project.views.user import RegistrationAPIView, LoginAPIView
 
 urlpatterns = [
     path('posts/', PostView.as_view({'get': 'list', 'post': 'create'}), name="posts_list"),
@@ -21,4 +22,6 @@ urlpatterns = [
     path('achievements/', AchievementView.as_view({'get': 'list', 'post': 'create'}), name="achievements_list"),
     path('achievements/<int:pk>/', AchievementView.as_view({'get': 'retrieve', 'delete': 'destroy', 'put': 'update'}),
          name="achievement_detail"),
+    path('users/', RegistrationAPIView.as_view()),
+    path('users/login/', LoginAPIView.as_view()),
 ]
