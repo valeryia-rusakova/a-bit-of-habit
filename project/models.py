@@ -1,17 +1,15 @@
 from datetime import timedelta, datetime
-
 import jwt
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.db import models
-from django.contrib.auth.models import User, PermissionsMixin, UserManager
+from django.contrib.auth.models import PermissionsMixin, UserManager
 from django.contrib.auth.hashers import make_password
-
 from development import settings
 from enums import AchievementLevel, HabitType
 
 
 class Achievement(models.Model):
-    name = models.CharField(verbose_name='achievement name', choices=AchievementLevel.choices(), max_length=30)
+    name = models.CharField(verbose_name='achievement name', choices=AchievementLevel.choices(), max_length=80)
     amount_to_reach = models.IntegerField(default=30)
     image = models.ForeignKey("Image", null=True, blank=True, on_delete=models.SET_NULL)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -91,7 +89,7 @@ class Image(models.Model):
 
 
 class Post(models.Model):
-    header = models.CharField(verbose_name='post name', unique=True, max_length=30)
+    header = models.CharField(verbose_name='post name', unique=True, max_length=80)
     body = models.TextField(verbose_name='post text', blank=False, null=False)
     user = models.ForeignKey("UserAccount", on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -170,4 +168,3 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
         }, settings.SECRET_KEY, algorithm='HS256')
 
         return token
-
