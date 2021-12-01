@@ -23,10 +23,11 @@ class PostController:
         return self.dal.delete_post(delete_pk)
 
     def update_post(self, request):
-        data = {
-            'header': request.data['header'],
-            'body': request.data['body'],
-        }
+        data = {}
+        if request.data['header']:
+            data.update({'header': request.data['header']})
+        if request.data['body']:
+            data.update({'body': request.data['body']})
         update_pk = request.parser_context['kwargs']['pk']
         return self.dal.update_post(object_data=data, pk=update_pk)
 
