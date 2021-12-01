@@ -23,6 +23,6 @@ class PostDAL:
     @staticmethod
     def update_post(object_data: dict, pk):
         post = get_object_or_404(Post, pk=pk)
-        post.body = object_data['body']
-        post.header = object_data['header']
+        post.body = object_data.get('body', post.body)
+        post.header = object_data.get('header', post.header)
         post.save()

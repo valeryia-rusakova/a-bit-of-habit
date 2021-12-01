@@ -26,23 +26,23 @@ class PostView(
         serializer = self.serializer_class(queryset, many=True)
         return Response(serializer.data)
 
-    @has_permissions('anonymous')
+    @has_permissions('user')
     def create(self, request, *args, **kwargs) -> Response:
         self.controller.create_post(request)
         return Response(status=status.HTTP_201_CREATED)
 
-    @has_permissions('anonymous')
+    @has_permissions('user')
     def retrieve(self, request, *args, **kwargs) -> Response:
         post_object = self.controller.get_post_queryset(request, 'retrieve')
         serializer = self.serializer_class(post_object)
         return Response(serializer.data)
 
-    @has_permissions('anonymous')
+    @has_permissions('user')
     def destroy(self, request, *args, **kwargs) -> Response:
         self.controller.delete_post(request)
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-    @has_permissions('anonymous')
+    @has_permissions('user')
     def update(self, request, *args, **kwargs) -> Response:
         self.controller.update_post(request)
         return Response(status=status.HTTP_200_OK)
