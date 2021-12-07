@@ -1,6 +1,6 @@
 from django.contrib.auth import authenticate, get_user_model
 from rest_framework import serializers
-from .models import Achievement, Comment, Habit, Image, Post
+from .models import Achievement, Comment, Habit, Image, Post, HabitUser
 
 
 class AchievementSerializer(serializers.ModelSerializer):
@@ -18,6 +18,8 @@ class CommentSerializer(serializers.ModelSerializer):
 
 
 class HabitSerializer(serializers.ModelSerializer):
+    image = serializers.SlugRelatedField(slug_field="image", read_only=True)
+
     class Meta:
         model = Habit
         fields = "__all__"
@@ -26,7 +28,7 @@ class HabitSerializer(serializers.ModelSerializer):
 class ImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Image
-        fields = "__all__"
+        exclude = ('image',)
 
 
 class PostSerializer(serializers.ModelSerializer):
@@ -34,6 +36,14 @@ class PostSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Post
+        fields = "__all__"
+
+
+class HabitUserSerializer(serializers.ModelSerializer):
+    user = serializers.SlugRelatedField(slug_field="username", read_only=True)
+
+    class Meta:
+        model = HabitUser
         fields = "__all__"
 
 

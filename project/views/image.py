@@ -1,3 +1,6 @@
+import base64
+import json
+
 from project.controllers.image import ImageController
 from project.dal.image import ImageDAL
 from project.serializers import ImageSerializer
@@ -20,11 +23,24 @@ class ImageView(
     queryset = dal.get_images_list()
     serializer_class = ImageSerializer
 
+    @staticmethod
+    def export_svg_by_id(queryset, image_id):
+        image_object = queryset.get(id=image_id)
+        svg_bytes = image_object.image.file.file.read()
+        data = ''.join(svg_bytes.decode("utf-8").split("\r\n"))
+        return data
+
     @has_permissions('anonymous')
     def list(self, request, *args, **kwargs) -> Response:
         queryset = self.controller.get_image_queryset(request, 'list')
+        image_id_list = queryset.values_list('id', flat=True)
         serializer = self.serializer_class(queryset, many=True)
-        return Response(serializer.data)
+        data = serializer.data
+        for image_id in image_id_list:
+            svg_data = self.export_svg_by_id(queryset, image_id)
+            data_item = next(item for item in data if item['id'] == image_id)
+            data_item['image'] = svg_data
+        return Response(data)
 
     @has_permissions('anonymous')
     def create(self, request, *args, **kwargs) -> Response:
