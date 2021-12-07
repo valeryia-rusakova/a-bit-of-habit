@@ -68,7 +68,6 @@ class Habit(models.Model):
 class HabitUser(models.Model):
     habit = models.ForeignKey(Habit, null=True, on_delete=models.SET_NULL)
     user = models.ForeignKey("UserAccount", null=True, on_delete=models.SET_NULL)
-    start_date = models.DateField(auto_created=True)
     days_checked = models.IntegerField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
