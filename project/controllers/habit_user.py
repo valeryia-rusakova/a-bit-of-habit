@@ -30,7 +30,8 @@ class HabitUserController:
 
     def daily_check(self, request):
         habit_user = self.dal.get_habit_user(habit=request.data['habitId'], user=request.user)
-        if (habit_user.updated_at == habit_user.created_at and habit_user.days_checked == 1) \
-                or (habit_user.updated_at + datetime.timedelta(hours=3)).date() == datetime.datetime.today().date():
+        if habit_user.updated_at == habit_user.created_at and habit_user.days_checked == 0:
+            return self.dal.daily_check(habit_user)
+        if (habit_user.updated_at + datetime.timedelta(hours=3)).date() == datetime.datetime.today().date():
             return {"Fail": "You’ve already checked-in today"}
         return self.dal.daily_check(habit_user)
