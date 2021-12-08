@@ -4,26 +4,9 @@ from project.models import Achievement
 
 class AchievementDAL:
     @staticmethod
-    def retrieve_achievement(pk):
-        return get_object_or_404(Achievement, pk=pk)
-
-    @staticmethod
     def get_achievements_list():
         return Achievement.objects.all()
 
     @staticmethod
-    def delete_achievement(pk):
-        achievement = get_object_or_404(Achievement, pk=pk)
-        achievement.delete()
-
-    @staticmethod
-    def insert_achievement(object_data: dict):
-        Achievement.objects.create(**object_data)
-
-    @staticmethod
-    def update_achievement(object_data: dict, pk):
-        achievement = get_object_or_404(Achievement, pk=pk)
-        achievement.name = object_data['name']
-        achievement.amount_to_reach = object_data['amount_to_reach']
-        achievement.image = object_data['image']
-        achievement.save()
+    def get_achievement_by_amount_to_reach(amount_to_reach):
+        return get_object_or_404(Achievement, amount_to_reach=amount_to_reach)

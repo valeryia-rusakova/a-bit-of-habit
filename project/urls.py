@@ -1,5 +1,6 @@
 from django.urls import path
 
+from project.views.achievement_user import AchievementUserView
 from project.views.habit_user import HabitUserView
 from project.views.achievement import AchievementView
 from project.views.comment import CommentView
@@ -26,4 +27,6 @@ urlpatterns = [
     path('users/login/', LoginAPIView.as_view()),
     path('habitUser/', HabitUserView.as_view({'get': 'list', 'post': 'create', 'patch': 'partial_update'}),
          name="habits_users_list"),
+    path('userAchievements/', AchievementUserView.as_view({'get': 'list'}),
+         name="achievements_users_list"),
 ]
