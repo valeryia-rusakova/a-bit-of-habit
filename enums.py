@@ -2,11 +2,9 @@ from enum import Enum
 
 
 class AchievementLevel(Enum):
-    WOODEN = "WOODEN"
     BRONZE = "BRONZE"
     SILVER = "SILVER"
     GOLD = "GOLD"
-    PLATINUM = "PLATINUM"
 
     @classmethod
     def choices(cls):
