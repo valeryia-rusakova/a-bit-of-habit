@@ -3,6 +3,7 @@ from django.dispatch import receiver
 from project.controllers.achievement_user import AchievementUserController
 from project.dal.achievement import AchievementDAL
 from project.models import HabitUser
+from .tasks import send_email_task
 
 
 @receiver(post_save, sender=HabitUser)
@@ -12,3 +13,4 @@ def save_achievement_user(sender, instance, **kwargs):
     if days_checked in achievements.values_list('amount_to_reach', flat=True):
         controller = AchievementUserController()
         controller.create_achievement_user(days_checked, instance.habit_id, instance.user)
+        send_email_task.delay(email=instance.user.email)

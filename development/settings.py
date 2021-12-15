@@ -26,7 +26,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -78,10 +77,10 @@ WSGI_APPLICATION = 'development.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'a_bit_of_habit',
-        'USER': 'a_bit_of_habit',
-        'PASSWORD': 'a_bit_of_habit',
-        'HOST': 'localhost',
+        'NAME': os.getenv('NAME', 'a_bit_of_habit'),
+        'USER': os.getenv('USER', 'a_bit_of_habit'),
+        'PASSWORD': os.getenv('PASSWORD', 'a_bit_of_habit'),
+        'HOST': os.getenv('HOST', 'localhost'),
         'PORT': '5432',
     }
 }
@@ -123,7 +122,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # Default primary key field type
@@ -135,3 +133,16 @@ AUTH_USER_MODEL = 'project.UserAccount'
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
 ]
+
+CELERY_BROKER_URL = 'redis://redis:6379'
+CELERY_RESULT_BACKEND = 'redis://redis:6379'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = os.getenv('EMAIL_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_PASSWORD')
+
