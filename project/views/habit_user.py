@@ -3,7 +3,6 @@ from rest_framework import mixins, viewsets, status
 
 from project.controllers.habit_user import HabitUserController
 from project.dal.habit import HabitDAL
-from project.dal.habit_user import HabitUserDAL
 
 from project.serializers import HabitSerializer
 from utils import has_permissions
@@ -19,6 +18,7 @@ class HabitUserView(
 ):
     dal = HabitDAL()
     controller = HabitUserController()
+    queryset = dal.get_habits_list()
     serializer_class = HabitSerializer
 
     @has_permissions('user')
@@ -43,3 +43,9 @@ class HabitUserView(
         if message:
             return Response(message, status=status.HTTP_400_BAD_REQUEST)
         return Response(status=status.HTTP_200_OK)
+
+    @has_permissions('user')
+    def get_max_days_checked(self, request) -> Response:
+        user = request.user
+        max_days_checked = self.controller.get_max_days_checked(user)
+        return Response(max_days_checked)

@@ -1,8 +1,9 @@
 from django.shortcuts import get_object_or_404
 from project.models import Post
+from project.dal.MetaDAL import MetaDAL
 
 
-class PostDAL:
+class PostDAL(metaclass=MetaDAL):
     @staticmethod
     def retrieve_post(pk):
         return get_object_or_404(Post, pk=pk)
@@ -26,3 +27,7 @@ class PostDAL:
         post.body = object_data.get('body', post.body)
         post.header = object_data.get('header', post.header)
         post.save()
+
+    @staticmethod
+    def get_extra_posts(user):
+        return Post.objects.filter(user=user.id)[:5]

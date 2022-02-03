@@ -35,3 +35,6 @@ class HabitUserController:
         if (habit_user.updated_at + datetime.timedelta(hours=3)).date() == datetime.datetime.today().date():
             return {"Fail": "You’ve already checked-in today"}
         return self.dal.daily_check(habit_user)
+
+    def get_max_days_checked(self, user):
+        return self.dal.get_max_days_checked(user)

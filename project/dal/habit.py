@@ -1,8 +1,9 @@
 from django.shortcuts import get_object_or_404
 from project.models import Habit
+from project.dal.MetaDAL import MetaDAL
 
 
-class HabitDAL:
+class HabitDAL(metaclass=MetaDAL):
     @staticmethod
     def retrieve_habit(pk):
         return get_object_or_404(Habit, pk=pk)

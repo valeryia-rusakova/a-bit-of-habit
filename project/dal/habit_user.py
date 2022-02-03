@@ -1,11 +1,11 @@
-import datetime
-
+from django.db.models import Max
+from project.dal.MetaDAL import MetaDAL
 from django.shortcuts import get_object_or_404
 
 from project.models import HabitUser, Habit
 
 
-class HabitUserDAL:
+class HabitUserDAL(metaclass=MetaDAL):
     @staticmethod
     def insert_habit_user(object_data: dict):
         HabitUser.objects.create(**object_data)
@@ -26,3 +26,7 @@ class HabitUserDAL:
     def daily_check(habit_user):
         habit_user.days_checked += 1
         habit_user.save(update_fields=['days_checked', 'updated_at'])
+
+    @staticmethod
+    def get_max_days_checked(user):
+        return HabitUser.objects.filter(user=user.id).aggregate(Max('days_checked'))

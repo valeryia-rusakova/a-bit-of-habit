@@ -39,3 +39,12 @@ class LoginAPIView(APIView):
         serializer.is_valid(raise_exception=True)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class StatisticAPIView(APIView):
+    user_controller = UserController()
+
+    @has_permissions('anonymous')
+    def get(self, request):
+        get_avg_num_posts = self.user_controller.get_avg_num_posts()
+        return Response(get_avg_num_posts)

@@ -22,27 +22,27 @@ class HabitView(
 
     @has_permissions('anonymous')
     def list(self, request, *args, **kwargs) -> Response:
-        queryset = self.controller.get_habit_queryset(request, 'list')
+        queryset = self.controller.get_queryset(request, 'list')
         serializer = self.serializer_class(queryset, many=True)
         return Response(serializer.data)
 
     @has_permissions('anonymous')
     def create(self, request, *args, **kwargs) -> Response:
-        self.controller.create_habit(request)
+        self.controller.create(request)
         return Response(status=status.HTTP_201_CREATED)
 
     @has_permissions('anonymous')
     def retrieve(self, request, *args, **kwargs) -> Response:
-        habit_object = self.controller.get_habit_queryset(request, 'retrieve')
+        habit_object = self.controller.get_queryset(request, 'retrieve')
         serializer = self.serializer_class(habit_object)
         return Response(serializer.data)
 
     @has_permissions('anonymous')
     def destroy(self, request, *args, **kwargs) -> Response:
-        self.controller.delete_habit(request)
+        self.controller.delete(request)
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     @has_permissions('anonymous')
     def update(self, request, *args, **kwargs) -> Response:
-        self.controller.update_habit(request)
+        self.controller.update(request)
         return Response(status=status.HTTP_200_OK)

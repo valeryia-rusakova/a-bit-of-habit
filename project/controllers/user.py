@@ -11,3 +11,6 @@ class UserController:
             'password': request.data['password']
         }
         return self.dal.insert_user(data)
+
+    def get_avg_num_posts(self):
+        return self.dal.get_avg_num_posts()

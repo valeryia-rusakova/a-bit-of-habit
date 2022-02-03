@@ -1,8 +1,9 @@
 from django.shortcuts import get_object_or_404
 from project.models import Image
+from project.dal.MetaDAL import MetaDAL
 
 
-class ImageDAL:
+class ImageDAL(metaclass=MetaDAL):
     @staticmethod
     def retrieve_image(pk):
         return get_object_or_404(Image, pk=pk)

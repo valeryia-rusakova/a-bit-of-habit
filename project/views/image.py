@@ -32,7 +32,7 @@ class ImageView(
 
     @has_permissions('anonymous')
     def list(self, request, *args, **kwargs) -> Response:
-        queryset = self.controller.get_image_queryset(request, 'list')
+        queryset = self.controller.get_queryset(request, 'list')
         image_id_list = queryset.values_list('id', flat=True)
         serializer = self.serializer_class(queryset, many=True)
         data = serializer.data
@@ -44,21 +44,21 @@ class ImageView(
 
     @has_permissions('anonymous')
     def create(self, request, *args, **kwargs) -> Response:
-        self.controller.create_image(request)
+        self.controller.create(request)
         return Response(status=status.HTTP_201_CREATED)
 
     @has_permissions('anonymous')
     def retrieve(self, request, *args, **kwargs) -> Response:
-        image_object = self.controller.get_image_queryset(request, 'retrieve')
+        image_object = self.controller.get_queryset(request, 'retrieve')
         serializer = self.serializer_class(image_object)
         return Response(serializer.data)
 
     @has_permissions('anonymous')
     def destroy(self, request, *args, **kwargs) -> Response:
-        self.controller.delete_image(request)
+        self.controller.delete(request)
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     @has_permissions('anonymous')
     def update(self, request, *args, **kwargs) -> Response:
-        self.controller.update_image(request)
+        self.controller.update(request)
         return Response(status=status.HTTP_200_OK)

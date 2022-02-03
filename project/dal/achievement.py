@@ -1,8 +1,9 @@
 from django.shortcuts import get_object_or_404
+from project.dal.MetaDAL import MetaDAL
 from project.models import Achievement
 
 
-class AchievementDAL:
+class AchievementDAL(metaclass=MetaDAL):
     @staticmethod
     def get_achievements_list():
         return Achievement.objects.all()

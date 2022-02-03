@@ -1,17 +1,18 @@
+from project.controllers.controller import Controller
 from project.dal.habit import HabitDAL
 from project.dal.image import ImageDAL
 
 
-class HabitController:
+class HabitController(Controller):
     dal = HabitDAL()
 
-    def get_habit_queryset(self, request, request_type):
+    def get_queryset(self, request, request_type):
         if request_type == 'list':
             return self.dal.get_habits_list()
         habit_pk = request.parser_context['kwargs']['pk']
         return self.dal.retrieve_habit(habit_pk)
 
-    def create_habit(self, request):
+    def create(self, request):
         image_id = request.data['image']
         image_instance = ImageDAL.retrieve_image(image_id)
         data = {
@@ -22,11 +23,11 @@ class HabitController:
         }
         return self.dal.insert_habit(data)
 
-    def delete_habit(self, request):
+    def delete(self, request):
         delete_pk = request.parser_context['kwargs']['pk']
         return self.dal.delete_habit(delete_pk)
 
-    def update_habit(self, request):
+    def update(self, request):
         image_id = request.data['image']
         image_instance = ImageDAL.retrieve_image(image_id)
         data = {

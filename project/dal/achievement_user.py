@@ -1,7 +1,8 @@
 from project.models import AchievementUser
+from project.dal.MetaDAL import MetaDAL
 
 
-class AchievementUserDAL:
+class AchievementUserDAL(metaclass=MetaDAL):
     @staticmethod
     def get_user_achievements(user):
         return AchievementUser.objects.filter(user=user.id).select_related('achievement')

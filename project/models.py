@@ -8,12 +8,18 @@ from development import settings
 from enums import AchievementLevel, HabitType
 
 
-class Achievement(models.Model):
+class AutoDateInfo(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        abstract = True
+
+
+class Achievement(AutoDateInfo):
     name = models.CharField(verbose_name='achievement name', choices=AchievementLevel.choices(), max_length=80)
     amount_to_reach = models.IntegerField(default=30)
     image = models.ForeignKey("Image", null=True, blank=True, on_delete=models.SET_NULL)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         verbose_name = 'achievement'
@@ -23,23 +29,19 @@ class Achievement(models.Model):
         return self.name
 
 
-class AchievementUser(models.Model):
+class AchievementUser(AutoDateInfo):
     achievement = models.ForeignKey(Achievement, on_delete=models.CASCADE)
     user = models.ForeignKey("UserAccount", on_delete=models.CASCADE)
     description = models.TextField(verbose_name='achievement description')
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.user.get_username()
 
 
-class Comment(models.Model):
+class Comment(AutoDateInfo):
     user = models.ForeignKey("UserAccount", on_delete=models.CASCADE)
     post = models.ForeignKey("Post", on_delete=models.CASCADE)
     body = models.TextField(verbose_name='comment text')
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         verbose_name = 'comment'
@@ -49,13 +51,11 @@ class Comment(models.Model):
         return self.user.get_username()
 
 
-class Habit(models.Model):
+class Habit(AutoDateInfo):
     name = models.CharField(verbose_name='habit name', unique=True, max_length=60)
     description = models.TextField(verbose_name='habit description')
     type = models.CharField(verbose_name='habit type', choices=HabitType.choices(), max_length=60)
     image = models.ForeignKey("Image", null=True, blank=True, on_delete=models.SET_NULL)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         verbose_name = 'habit'
@@ -65,34 +65,28 @@ class Habit(models.Model):
         return self.name
 
 
-class HabitUser(models.Model):
+class HabitUser(AutoDateInfo):
     habit = models.ForeignKey(Habit, null=True, on_delete=models.SET_NULL)
     user = models.ForeignKey("UserAccount", null=True, on_delete=models.SET_NULL)
     days_checked = models.IntegerField(null=True, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"{self.user.get_username()}: {self.habit.name}" if self.habit else f"{self.user.get_username()}: " \
                                                                                    f"Blanks "
 
 
-class Image(models.Model):
+class Image(AutoDateInfo):
     image = models.ImageField(null=False, blank=False)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         verbose_name = 'image'
         verbose_name_plural = 'images'
 
 
-class Post(models.Model):
+class Post(AutoDateInfo):
     header = models.CharField(verbose_name='post name', unique=True, max_length=80)
     body = models.TextField(verbose_name='post text', blank=False, null=False)
     user = models.ForeignKey("UserAccount", on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         verbose_name = 'post'
@@ -129,13 +123,11 @@ class UserAccountManager(BaseUserManager):
         return user
 
 
-class UserAccount(AbstractBaseUser, PermissionsMixin):
+class UserAccount(AbstractBaseUser, PermissionsMixin, AutoDateInfo):
     username = models.CharField(db_index=True, max_length=255, unique=True)
     email = models.EmailField(db_index=True, unique=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']

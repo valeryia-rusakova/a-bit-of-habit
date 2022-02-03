@@ -1,26 +1,27 @@
+from project.controllers.controller import Controller
 from project.dal.image import ImageDAL
 
 
-class ImageController:
+class ImageController(Controller):
     dal = ImageDAL()
 
-    def get_image_queryset(self, request, request_type):
+    def get_queryset(self, request, request_type):
         if request_type == 'list':
             return self.dal.get_images_list()
         image_pk = request.parser_context['kwargs']['pk']
         return self.dal.retrieve_image(image_pk)
 
-    def create_image(self, request):
+    def create(self, request):
         data = {
             'image': request.data['image'],
         }
         return self.dal.insert_image(data)
 
-    def delete_image(self, request):
+    def delete(self, request):
         delete_pk = request.parser_context['kwargs']['pk']
         return self.dal.delete_image(delete_pk)
 
-    def update_image(self, request):
+    def update(self, request):
         data = {
             'image': request.data['image'],
         }

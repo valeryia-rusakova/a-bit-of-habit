@@ -1,7 +1,8 @@
 from project.models import Comment
+from project.dal.MetaDAL import MetaDAL
 
 
-class CommentDAL:
+class CommentDAL(metaclass=MetaDAL):
     @staticmethod
     def get_comments_list():
         return Comment.objects.all()
